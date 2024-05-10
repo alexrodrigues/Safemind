@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "328021209746",
+    "project_id": "safemind-dd70c",
+    "storage_bucket": "safemind-dd70c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328021209746:android:b864c909c889b7a736ac4b",
+        "android_client_info": {
+          "package_name": "com.rodriguesalex.safemind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAroyE6P5pyApFLH0ot1Ph_LlKCBH5RAb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

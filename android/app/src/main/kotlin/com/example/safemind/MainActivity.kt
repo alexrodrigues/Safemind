@@ -1,4 +1,4 @@
-package com.example.safemind
+package com.rodriguesalex.safemind
 
 import io.flutter.embedding.android.FlutterActivity
 
