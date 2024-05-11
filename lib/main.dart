@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:safemind/screens/home_screen.dart';
+import 'package:safemind/screens/tab_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (ctx) => const HomeScreen(),
+        "/": (ctx) => const TabScreen(),
       },
     );
   }
