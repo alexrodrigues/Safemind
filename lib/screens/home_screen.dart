@@ -26,13 +26,40 @@ class _HomeScreenState extends State<HomeScreen> {
         "the founder of psychoanalysis, who developed the concept of the unconscious mind and the Oedipus complex"),
   ];
 
+  var searchString = "";
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: therapists.length,
-      itemBuilder: (ctx, index) {
-        return TherapistCard(therapists[index]);
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                searchString = value.toLowerCase();
+              });
+            },
+            decoration: const InputDecoration(
+              hintText: "Search",
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            itemCount: therapists.length,
+            itemBuilder: (ctx, index) {
+              return TherapistCard(therapists[index]);
+            },
+          ),
+        )
+      ],
     );
   }
 }

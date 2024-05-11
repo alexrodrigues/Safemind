@@ -10,9 +10,12 @@ class TherapistCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Image.network(
-          model.urlImage,
-          fit: BoxFit.scaleDown,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(
+            model.urlImage,
+            fit: BoxFit.scaleDown,
+          ),
         ),
         title: Text(
           model.name,
