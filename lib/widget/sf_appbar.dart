@@ -7,6 +7,7 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.purple,
+      iconTheme: const IconThemeData(color: Colors.white),
       title: const Text(
         "Safemind",
         style: TextStyle(color: Colors.white),

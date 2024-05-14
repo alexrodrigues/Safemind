@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safemind/screens/detail_screen.dart';
 import 'package:safemind/widget/sf_card_therapist.dart';
 
 import '../model/therapist.dart';
@@ -55,7 +56,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             itemCount: therapists.length,
             itemBuilder: (ctx, index) {
-              return TherapistCard(therapists[index]);
+              return GestureDetector(
+                child: TherapistCard(therapists[index]),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    DetailsScreen.ROUTE_NAME,
+                    arguments: therapists[index],
+                  );
+                },
+              );
             },
           ),
         )
