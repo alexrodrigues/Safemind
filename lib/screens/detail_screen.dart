@@ -31,13 +31,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
             right: 16.0,
           ),
           child: Card(
-            child: Column(
-              children: [
-                SfDetailsTopWidget(
-                  therapist.urlImage,
-                  therapist.name,
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SfDetailsTopWidget(
+                    therapist.urlImage,
+                    therapist.name,
+                  ),
+                  Text(
+                    therapist.description,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w200,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
