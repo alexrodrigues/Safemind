@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:safemind/model/therapist.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 
+import '../widget/sf_details_top.dart';
+
 class DetailsScreen extends StatefulWidget {
   static const ROUTE_NAME = "_DetailsScreen";
   const DetailsScreen({super.key});
@@ -17,10 +19,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ModalRoute.of(context)?.settings.arguments as Therapist;
     return Scaffold(
       appBar: const SfAppBar(),
-      body: Center(
-        child: Text(
-          therapist.name,
-          style: TextStyle(color: Colors.black),
+      body: Container(
+        color: Colors.white,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 16.0,
+            bottom: 32.0,
+            left: 16.0,
+            right: 16.0,
+          ),
+          child: Card(
+            child: Column(
+              children: [
+                SfDetailsTopWidget(
+                  therapist.urlImage,
+                  therapist.name,
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
