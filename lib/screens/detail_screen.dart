@@ -16,47 +16,66 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    Therapist? therapist =
-        ModalRoute.of(context)?.settings.arguments as Therapist;
+    final Therapist? therapist =
+        ModalRoute.of(context)?.settings.arguments as Therapist?;
+    if (therapist == null) {
+      return Scaffold(
+        appBar: SfAppBar("Error"),
+        body: const Center(
+          child: Text("No therapist data provided."),
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: const SfAppBar(),
+      appBar: SfAppBar(therapist.name),
       body: Container(
         color: Colors.white,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: double.infinity,
+        height: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 16.0,
-            bottom: 32.0,
-            left: 16.0,
-            right: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            elevation: 4,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SfDetailsTopWidget(
                       therapist.urlImage,
                       therapist.name,
+                      therapist.identifier,
                     ),
+                    const SizedBox(height: 16.0),
                     Text(
                       _lorem,
                       style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w200,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400,
+                        height: 1.5,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                      child: Expanded(
-                        child: SfPrimaryButton(
-                          "Schedule a meet",
-                          () {},
-                        ),
-                      ),
+                    const SizedBox(height: 32.0),
+                    SfPrimaryButton(
+                      "Schedule a meet",
+                      () {},
                     ),
+                    const SizedBox(height: 16.0),
+                    SfPrimaryButton(
+                      "Instagram",
+                      () {},
+                    ),
+                    const SizedBox(height: 16.0),
+                    SfPrimaryButton(
+                      "Website",
+                      () {},
+                    ),
+                    const SizedBox(height: 16.0),
                   ],
                 ),
               ),
@@ -68,5 +87,5 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   String _lorem =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis aenean et tortor at risus viverra adipiscing at in. Feugiat in fermentum posuere urna. Libero id faucibus nisl tincidunt eget nullam non. Egestas congue quisque egestas diam in arcu cursus euismod quis. Etiam tempor orci eu lobortis elementum nibh tellus. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Ultrices dui sapien eget mi proin sed libero. Nisl nisi scelerisque eu ultrices. Neque gravida in fermentum et sollicitudin ac orci phasellus egestas.\n\nEleifend donec pretium vulputate sapien nec. Vitae nunc sed velit dignissim sodales ut eu sem. Nunc sed augue lacus viverra vitae congue. Pretium aenean pharetra magna ac. Sollicitudin tempor id eu nisl. Gravida cum sociis natoque penatibus et. Accumsan lacus vel facilisis volutpat est velit egestas dui. Nulla porttitor massa id neque aliquam vestibulum morbi blandit cursus. Nunc faucibus a pellentesque sit amet porttitor eget dolor morbi. Eget nullam non nisi est sit amet facilisis magna. Porta nibh venenatis cras sed felis eget velit aliquet sagittis. Purus non enim praesent elementum facilisis leo. Sed vulputate mi sit amet mauris. Nunc mi ipsum faucibus vitae. Vel orci porta non pulvinar. Ante metus dictum at tempor commodo. Metus aliquam eleifend mi in. Sit amet commodo nulla facilisi nullam. Nec nam aliquam sem et tortor consequat. Non curabitur gravida arcu ac tortor.\n\nMagna eget est lorem ipsum dolor sit amet consectetur adipiscing. Libero justo laoreet sit amet cursus sit. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. In pellentesque massa placerat duis ultricies. Dolor sit amet consectetur adipiscing elit duis tristique sollicitudin nibh. Vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor posuere. Sit amet mauris commodo quis. Pellentesque elit eget gravida cum sociis. Pellentesque adipiscing commodo elit at imperdiet. Adipiscing elit duis tristique sollicitudin nibh sit. Dictumst quisque sagittis purus sit amet volutpat. Scelerisque eleifend donec pretium vulputate sapien nec.";
+      "Therapy is important because it provides individuals with a safe and supportive environment to explore their thoughts, feelings, and behaviors, which can lead to greater self-awareness and understanding. Through therapy, individuals can develop healthier coping mechanisms, improve their emotional regulation, and address mental health issues such as anxiety, depression, and trauma. It also fosters personal growth, enhances relationships, and promotes overall well-being by helping people navigate life's challenges and transitions more effectively. By working with a trained therapist, individuals can gain valuable insights and skills that empower them to lead more fulfilling and balanced lives.";
 }

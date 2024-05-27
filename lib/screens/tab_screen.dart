@@ -31,7 +31,7 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SfAppBar(),
+      appBar: SfAppBar(null),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
