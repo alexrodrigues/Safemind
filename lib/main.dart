@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safemind/screens/detail_screen.dart';
+import 'package:safemind/screens/login_screen.dart';
 import 'package:safemind/screens/tab_screen.dart';
 
 void main() {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (ctx) => const TabScreen(),
-        DetailsScreen.ROUTE_NAME: (context) => const DetailsScreen()
+        DetailsScreen.ROUTE_NAME: (context) => const DetailsScreen(),
+        LoginScreen.ROUTE_NAME: (context) => const LoginScreen()
       },
     );
   }

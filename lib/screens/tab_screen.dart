@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:safemind/screens/home_screen.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 
+import 'login_screen.dart';
+
 class TabScreen extends StatefulWidget {
   const TabScreen({super.key});
 
@@ -25,6 +27,21 @@ class _TabScreenState extends State<TabScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _navigateToLoginScreen();
+  }
+
+  void _navigateToLoginScreen() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
     });
   }
 
