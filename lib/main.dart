@@ -1,9 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:safemind/screens/detail_screen.dart';
 import 'package:safemind/screens/login_screen.dart';
 import 'package:safemind/screens/tab_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
