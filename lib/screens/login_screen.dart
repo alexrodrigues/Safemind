@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -61,10 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
                 obscureText: true,
@@ -75,11 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 32),
-              ElevatedButton(
+              const SizedBox(height: 32),
+              TextButton(
                 onPressed: _createAccount,
                 child: Text('Create Account'),
               ),
+              const SizedBox(height: 32),
               SfPrimaryButton(
                 "Login",
                 _login,
