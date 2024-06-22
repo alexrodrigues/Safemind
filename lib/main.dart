@@ -5,6 +5,7 @@ import 'package:safemind/screens/login_screen.dart';
 import 'package:safemind/screens/tab_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
