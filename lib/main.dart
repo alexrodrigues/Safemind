@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:safemind/screens/detail_screen.dart';
 import 'package:safemind/screens/login_screen.dart';
+import 'package:safemind/screens/signup_screen.dart';
 import 'package:safemind/screens/tab_screen.dart';
 
 void main() async {
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (ctx) => const TabScreen(),
         DetailsScreen.ROUTE_NAME: (context) => const DetailsScreen(),
-        LoginScreen.ROUTE_NAME: (context) => const LoginScreen()
+        LoginScreen.ROUTE_NAME: (context) => const LoginScreen(),
+        SignUpScreen.ROUTE_NAME: (context) => SignUpScreen(),
       },
     );
   }

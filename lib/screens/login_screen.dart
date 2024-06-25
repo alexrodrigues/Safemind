@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safemind/screens/signup_screen.dart';
 
 import '../widget/sf_appbar.dart';
 import '../widget/sf_primary_button.dart';
@@ -33,12 +34,20 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _createAccount() {}
+  void _createAccount() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SfAppBar("Welcome"),
+      appBar: SfAppBar(
+        "Welcome",
+        showBackArrow: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
