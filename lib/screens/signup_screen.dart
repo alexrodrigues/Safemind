@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -11,8 +12,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _meetLinkController = TextEditingController();
   final TextEditingController _instagramUrlController = TextEditingController();
@@ -30,12 +30,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  void _signUp() {
+  Future<void> _signUp() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // Handle the sign-up logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Signing Up...')),
-      );
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Successfully signed up')),
+        );
+        // Navigate to a different screen if needed
+      } on FirebaseAuthException catch (e) {
+        String message;
+        if (e.code == 'weak-password') {
+          message = 'The password provided is too weak.';
+        } else if (e.code == 'email-already-in-use') {
+          message = 'The account already exists for that email.';
+        } else {
+          message = 'An error occurred. Please try again.';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An error occurred. Please try again.')),
+        );
+      }
     }
   }
 
@@ -148,9 +170,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _signUp,
-                child: Text('Sign Up', style: TextStyle(color: Colors.white),),
+                child: Text('Sign Up', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple, // Updated property
+                  backgroundColor: Colors.purple,
                 ),
               ),
             ],
