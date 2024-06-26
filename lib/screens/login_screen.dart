@@ -34,11 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _createAccount() {
-    Navigator.push(
+  void _createAccount() async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignUpScreen()),
     );
+
+    if (result == true) {
+      Navigator.pop(context, result);
+    }
   }
 
   @override

@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           SnackBar(content: Text('Successfully signed up')),
         );
         Future.delayed(Duration(seconds: 1), () {
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         });
         // Navigate to a different screen if needed
       } on FirebaseAuthException catch (e) {
