@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safemind/screens/home_screen.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 
@@ -33,7 +35,23 @@ class _TabScreenState extends State<TabScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToLoginScreen();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _checkUserLoggedIn();
+    });
+  }
+
+  void _checkUserLoggedIn() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Welcome ${user.email ?? 'User'}')),
+      );
+    }
   }
 
   void _navigateToLoginScreen() {
