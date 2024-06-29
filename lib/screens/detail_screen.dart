@@ -49,7 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     SfDetailsTopWidget(
                       therapist.urlImage,
                       therapist.name,
-                      therapist.identifier,
+                      therapist.crp,
                     ),
                     const SizedBox(height: 16.0),
                     Text(

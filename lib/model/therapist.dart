@@ -1,8 +1,20 @@
-class Therapist {
-  String name;
-  String urlImage;
-  String description;
-  String identifier;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  Therapist(this.name, this.urlImage, this.description, this.identifier);
+class Therapist {
+  final String name;
+  final String urlImage;
+  final String description;
+  final String crp;
+
+  Therapist(this.name, this.urlImage, this.description, this.crp);
+
+  factory Therapist.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
+    return Therapist(
+      data['name'] ?? '',
+      data['urlImage'] ?? '',
+      data['description'] ?? '',
+      data['crp'] ?? '',
+    );
+  }
 }

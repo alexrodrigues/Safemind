@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:safemind/widget/sf_appbar.dart';
-
 class SignUpScreen extends StatefulWidget {
   static const ROUTE_NAME = "SignUpScreen";
   @override
@@ -11,10 +10,10 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _meetLinkController = TextEditingController();
   final TextEditingController _instagramUrlController = TextEditingController();
@@ -24,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -40,17 +40,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isLoading = true;
       });
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
 
         // Save additional fields to Firestore
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredential.user?.uid)
-            .set({
+        await FirebaseFirestore.instance.collection('therapists').doc(userCredential.user?.uid).set({
+          'name': _nameController.text.trim(),
           'email': _emailController.text.trim(),
           'description': _descriptionController.text.trim(),
           'meetLink': _meetLinkController.text.trim(),
@@ -92,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SfAppBar("Sign up"),
+      appBar: AppBar(title: Text("Sign up")),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
@@ -101,6 +98,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 key: _formKey,
                 child: ListView(
                   children: [
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(labelText: 'Name'),
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
+                    ),
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(labelText: 'Email'),
@@ -131,8 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextFormField(
                       controller: _confirmPasswordController,
-                      decoration:
-                          InputDecoration(labelText: 'Confirm Password'),
+                      decoration: InputDecoration(labelText: 'Confirm Password'),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -201,8 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _signUp,
-                      child: Text('Sign Up',
-                          style: TextStyle(color: Colors.white)),
+                      child: Text('Sign Up', style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                       ),
