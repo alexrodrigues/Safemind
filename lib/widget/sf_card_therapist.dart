@@ -17,27 +17,38 @@ class TherapistCard extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
         leading: ClipRRect(
-          child: Image.network(
-            model.urlImage,
-            width: 120.0, // Increased width
-            height: 200.0, // Increased height
-            fit: BoxFit.cover,
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent? loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
+          borderRadius: BorderRadius.circular(8.0),
+          child: model.urlImage.isNotEmpty
+              ? Image.network(
+                  model.urlImage,
+                  width: 120.0, // Increased width
+                  height: 200.0, // Increased height
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                )
+              : Icon(
+                  Icons.error,
+                  size: 50,
+                  color: Colors.red,
                 ),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-          ),
         ),
         title: Text(
           model.name,

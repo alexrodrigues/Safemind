@@ -5,7 +5,7 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackArrow;
   final VoidCallback? onIconPressed;
 
-  SfAppBar(this._title, {this.showBackArrow = true, this.onIconPressed});
+  SfAppBar(this._title, {this.showBackArrow = false, this.onIconPressed});
 
   @override
   Widget build(BuildContext context) {
