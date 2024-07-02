@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: SfAppBar(
         "Welcome",
-        showBackArrow: false,
+        backIcon: Icons.clear,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

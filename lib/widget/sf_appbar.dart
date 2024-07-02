@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? _title;
-  final bool showBackArrow;
+  final IconData backIcon;
   final VoidCallback? onIconPressed;
 
-  SfAppBar(this._title, {this.showBackArrow = false, this.onIconPressed});
+  SfAppBar(this._title, {this.backIcon = Icons.arrow_back , this.onIconPressed,});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: IconButton(
         icon: Icon(
-          showBackArrow ? Icons.arrow_back : Icons.clear,
+          backIcon,
           color: Colors.white,
         ),
         onPressed: onIconPressed ?? () {
