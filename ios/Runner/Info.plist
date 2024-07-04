@@ -28,6 +28,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Precisamos da sua permissão para selecionar uma foto de perfil</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Precisamos da sua permissão para tirar uma foto de perfil</string>	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:safemind/widget/sf_appbar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const ROUTE_NAME = "SignUpScreen";
@@ -17,10 +16,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _meetLinkController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _crpController = TextEditingController();
   final TextEditingController _instagramUrlController = TextEditingController();
   final TextEditingController _websiteUrlController = TextEditingController();
   File? _image;
@@ -33,15 +32,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _descriptionController.dispose();
-    _meetLinkController.dispose();
+    _phoneController.dispose();
+    _crpController.dispose();
     _instagramUrlController.dispose();
     _websiteUrlController.dispose();
     super.dispose();
   }
 
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -55,8 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isLoading = true;
       });
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
@@ -64,22 +62,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
         String imageUrl = '';
         if (_image != null) {
           String fileName = 'profile_images/${userCredential.user!.uid}.png';
-          Reference storageReference =
-              FirebaseStorage.instance.ref().child(fileName);
-          UploadTask uploadTask = storageReference.putFile(_image!);
-          TaskSnapshot snapshot = await uploadTask;
+          Reference ref = FirebaseStorage.instance
+              .ref()
+              .child('user_Image')
+              .child(fileName);
+          UploadTask uploadTask = ref.putFile(_image!);
+          final snapshot = await uploadTask.whenComplete(() => null);
+
           imageUrl = await snapshot.ref.getDownloadURL();
         }
 
-        // Save additional fields to Firestore
-        await FirebaseFirestore.instance
-            .collection('therapists')
-            .doc(userCredential.user?.uid)
-            .set({
+        await FirebaseFirestore.instance.collection('therapists').doc(userCredential.user?.uid).set({
           'name': _nameController.text.trim(),
           'email': _emailController.text.trim(),
           'description': _descriptionController.text.trim(),
-          'meetLink': _meetLinkController.text.trim(),
+          'phone': _phoneController.text.trim(),
+          'crp': _crpController.text.trim(),
           'instagramUrl': _instagramUrlController.text.trim(),
           'websiteUrl': _websiteUrlController.text.trim(),
           'imageUrl': imageUrl,
@@ -91,7 +89,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Future.delayed(Duration(seconds: 1), () {
           Navigator.pop(context, true);
         });
-        // Navigate to a different screen if needed
       } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak-password') {
@@ -119,9 +116,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SfAppBar(
-        "Sign up",
-        backIcon: Icons.clear,
+      appBar: AppBar(
+        title: Text("Sign Up"),
+        leading: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -172,8 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextFormField(
                       controller: _confirmPasswordController,
-                      decoration:
-                          InputDecoration(labelText: 'Confirm Password'),
+                      decoration: InputDecoration(labelText: 'Confirm Password'),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -198,15 +197,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                     TextFormField(
-                      controller: _meetLinkController,
-                      decoration: InputDecoration(labelText: 'Meet Link'),
-                      keyboardType: TextInputType.url,
+                      controller: _phoneController,
+                      decoration: InputDecoration(labelText: 'Phone Number'),
+                      keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a meet link';
+                          return 'Please enter your phone number';
                         }
-                        if (!Uri.parse(value).isAbsolute) {
-                          return 'Please enter a valid URL';
+                        if (!RegExp(r'^\+?[0-9]{10,13}$').hasMatch(value)) {
+                          return 'Please enter a valid phone number';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _crpController,
+                      decoration: InputDecoration(labelText: 'CRP'),
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your CRP';
                         }
                         return null;
                       },
@@ -239,16 +249,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: _pickImage,
-                      child: Text('Pick Image'),
+                    SizedBox(height: 20),
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _image == null
+                              ? Text('No image selected.')
+                              : Image.file(
+                                  _image!,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _pickImage,
+                            child: Text('Pick Image from Gallery'),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _signUp,
-                      child: Text('Sign Up',
-                          style: TextStyle(color: Colors.white)),
+                      child: Text('Sign Up', style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                       ),

@@ -12,7 +12,7 @@ class Therapist {
     Map data = doc.data() as Map<String, dynamic>;
     return Therapist(
       data['name'] ?? '',
-      data['urlImage'] ?? '',
+      data['imageUrl'] ?? '',
       data['description'] ?? '',
       data['crp'] ?? '',
     );
