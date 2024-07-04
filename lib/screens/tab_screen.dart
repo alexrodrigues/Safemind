@@ -8,6 +8,7 @@ import 'package:safemind/widget/sf_appbar.dart';
 import 'login_screen.dart';
 
 class TabScreen extends StatefulWidget {
+  static const ROUTE_NAME = "/";
   const TabScreen({super.key});
 
   @override

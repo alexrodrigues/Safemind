@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:safemind/screens/tab_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const ROUTE_NAME = "SignUpScreen";
@@ -62,10 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         String imageUrl = '';
         if (_image != null) {
           String fileName = 'profile_images/${userCredential.user!.uid}.png';
-          Reference ref = FirebaseStorage.instance
-              .ref()
-              .child('user_Image')
-              .child(fileName);
+          Reference ref = FirebaseStorage.instance.ref().child(fileName);
           UploadTask uploadTask = ref.putFile(_image!);
           final snapshot = await uploadTask.whenComplete(() => null);
 
@@ -86,9 +84,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Successfully signed up')),
         );
+
         Future.delayed(Duration(seconds: 1), () {
-          Navigator.pop(context, true);
+          Navigator.pushReplacementNamed(context, TabScreen.ROUTE_NAME);
         });
+
       } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak-password') {
