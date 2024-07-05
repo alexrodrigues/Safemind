@@ -12,7 +12,7 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.purple,
       title: Text(
-        _title ?? "SafeMind",
+        _title ?? "Mente Segura",
         style: const TextStyle(color: Colors.white),
       ),
       leading: backIcon != null

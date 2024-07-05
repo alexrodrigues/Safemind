@@ -57,7 +57,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                     const SizedBox(height: 16.0),
                     Text(
-                      _lorem,
+                      therapist.description,
                       style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w400,
@@ -89,7 +89,4 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
     );
   }
-
-  String _lorem =
-      "Therapy is important because it provides individuals with a safe and supportive environment to explore their thoughts, feelings, and behaviors, which can lead to greater self-awareness and understanding. Through therapy, individuals can develop healthier coping mechanisms, improve their emotional regulation, and address mental health issues such as anxiety, depression, and trauma. It also fosters personal growth, enhances relationships, and promotes overall well-being by helping people navigate life's challenges and transitions more effectively. By working with a trained therapist, individuals can gain valuable insights and skills that empower them to lead more fulfilling and balanced lives.";
 }

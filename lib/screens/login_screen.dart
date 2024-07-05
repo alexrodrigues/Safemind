@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:safemind/screens/signup_screen.dart';
-
+import 'package:safemind/screens/tab_screen.dart';
 import '../widget/sf_appbar.dart';
 import '../widget/sf_primary_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   static const ROUTE_NAME = "LoginScreen";
@@ -16,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -24,13 +26,42 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() {
+  Future<void> _login() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // Perform login logic
+      setState(() {
+        _isLoading = true;
+      });
+
       final email = _emailController.text;
       final password = _passwordController.text;
-      print('Email: $email, Password: $password');
-      // You can add your authentication logic here
+
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        // Navigate to the home screen or show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Successfully logged in')),
+        );
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pushReplacementNamed(context, TabScreen.ROUTE_NAME);
+        });
+      } on FirebaseAuthException catch (e) {
+        String message = 'An error occurred, please try again';
+        if (e.code == 'user-not-found') {
+          message = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          message = 'Wrong password provided.';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -94,7 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text('Create Account'),
               ),
               const SizedBox(height: 32),
-              SfPrimaryButton(
+              _isLoading
+                  ? CircularProgressIndicator()
+                  : SfPrimaryButton(
                 "Login",
                 _login,
               ),
