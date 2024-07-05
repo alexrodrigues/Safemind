@@ -34,7 +34,7 @@ class _TabScreenState extends State<TabScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkUserLoggedIn();
     });
   }
@@ -51,15 +51,6 @@ class _TabScreenState extends State<TabScreen> {
         SnackBar(content: Text('Welcome ${user.email ?? 'User'}')),
       );
     }
-  }
-
-  void _navigateToLoginScreen() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
-    });
   }
 
   @override

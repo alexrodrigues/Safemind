@@ -7,6 +7,7 @@ import '../widget/sf_details_top.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const ROUTE_NAME = "_DetailsScreen";
+
   const DetailsScreen({super.key});
 
   @override
@@ -28,7 +29,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
 
     return Scaffold(
-      appBar: SfAppBar(therapist.name),
+      appBar: SfAppBar(
+        therapist.name,
+        backIcon: Icons.arrow_back,
+      ),
       body: Container(
         color: Colors.white,
         width: double.infinity,

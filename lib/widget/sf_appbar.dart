@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? _title;
-  final IconData backIcon;
+  final IconData? backIcon;
   final VoidCallback? onIconPressed;
 
-  SfAppBar(this._title, {this.backIcon = Icons.arrow_back , this.onIconPressed,});
+  SfAppBar(this._title, {this.backIcon, this.onIconPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,8 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
         _title ?? "SafeMind",
         style: const TextStyle(color: Colors.white),
       ),
-      leading: IconButton(
+      leading: backIcon != null
+          ? IconButton(
         icon: Icon(
           backIcon,
           color: Colors.white,
@@ -23,7 +24,8 @@ class SfAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: onIconPressed ?? () {
           Navigator.of(context).pop();
         },
-      ),
+      )
+          : null,
     );
   }
 
