@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:safemind/model/therapist.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 import 'package:safemind/widget/sf_primary_button.dart';
-
 import '../widget/sf_details_top.dart';
-import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -60,6 +58,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 16.0),
                     Text(
                       therapist.description,
+                      textAlign: TextAlign.justify,
                       style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w400,
