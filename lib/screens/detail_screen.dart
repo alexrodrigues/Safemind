@@ -4,6 +4,8 @@ import 'package:safemind/widget/sf_appbar.dart';
 import 'package:safemind/widget/sf_primary_button.dart';
 
 import '../widget/sf_details_top.dart';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const ROUTE_NAME = "_DetailsScreen";
@@ -66,18 +68,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                     const SizedBox(height: 32.0),
                     SfPrimaryButton(
-                      "Schedule a meet",
+                      "Chamar no Whats",
                       () {},
                     ),
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Instagram",
-                      () {},
+                      () {
+                        _openWebView(
+                          context,
+                          "https://instagram.com/${therapist.instagramUrl}",
+                        );
+                      },
                     ),
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Website",
-                      () {},
+                      () {
+                        _openWebView(context, therapist.websiteUrl);
+                      },
                     ),
                     const SizedBox(height: 16.0),
                   ],
@@ -86,6 +95,34 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _openWebView(BuildContext context, String url) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewScreen(url: url),
+      ),
+    );
+  }
+}
+
+class WebViewScreen extends StatelessWidget {
+  final String url;
+
+  const WebViewScreen({Key? key, required this.url}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Webview"),
+      ),
+      body: WebView(
+        initialUrl: url,
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }
