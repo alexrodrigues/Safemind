@@ -5,6 +5,8 @@ import 'package:safemind/widget/sf_primary_button.dart';
 import '../widget/sf_details_top.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class DetailsScreen extends StatefulWidget {
   static const ROUTE_NAME = "_DetailsScreen";
 
@@ -18,7 +20,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final Therapist? therapist =
-        ModalRoute.of(context)?.settings.arguments as Therapist?;
+    ModalRoute.of(context)?.settings.arguments as Therapist?;
     if (therapist == null) {
       return Scaffold(
         appBar: SfAppBar("Error"),
@@ -68,12 +70,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 32.0),
                     SfPrimaryButton(
                       "Chamar no Whats",
-                      () {},
+                          () {
+                        _launchWhatsApp(therapist.phoneNumber);
+                      },
                     ),
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Instagram",
-                      () {
+                          () {
                         _openWebView(
                           context,
                           "https://instagram.com/${therapist.instagramUrl}",
@@ -83,7 +87,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Website",
-                      () {
+                          () {
                         _openWebView(context, therapist.websiteUrl);
                       },
                     ),
@@ -105,6 +109,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
         builder: (context) => WebViewScreen(url: url),
       ),
     );
+  }
+
+  void _launchWhatsApp(String phoneNumber) async {
+    final String whatsappUrl = "https://wa.me/$phoneNumber";
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Could not launch WhatsApp"),
+        ),
+      );
+    }
   }
 }
 

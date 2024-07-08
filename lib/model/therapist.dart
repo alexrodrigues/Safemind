@@ -7,6 +7,7 @@ class Therapist {
   final String crp;
   final String instagramUrl;
   final String websiteUrl;
+  final String phoneNumber;
 
   Therapist(
     this.name,
@@ -15,6 +16,7 @@ class Therapist {
     this.crp,
     this.instagramUrl,
     this.websiteUrl,
+    this.phoneNumber,
   );
 
   factory Therapist.fromFirestore(DocumentSnapshot doc) {
@@ -26,6 +28,7 @@ class Therapist {
       data['crp'] ?? '',
       data['instagramUrl'] ?? '',
       data['websiteUrl'] ?? '',
+      data['phoneNumber'] ?? '',
     );
   }
 }
