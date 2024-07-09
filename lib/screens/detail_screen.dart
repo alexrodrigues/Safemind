@@ -134,7 +134,7 @@ class WebViewScreen extends StatelessWidget {
   final String title;
   final String url;
 
-  WebViewScreen(this.title, this.url)
+  WebViewScreen(this.title, this.url);
 
 
   @override
