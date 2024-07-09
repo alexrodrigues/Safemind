@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'login_screen.dart';
+
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -13,6 +15,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _signOut() async {
     await _auth.signOut();
+  }
+
+  void _checkUserLoggedIn() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Welcome ${user.email ?? 'User'}')),
+      );
+    }
   }
 
   void _showSignOutDialog(BuildContext context) {
@@ -61,6 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLogged = FirebaseAuth.instance.currentUser != null;
     return SettingsList(
       sections: [
         SettingsSection(
@@ -88,9 +105,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           tiles: <SettingsTile>[
             SettingsTile(
-              title: Text("Sair"),
+              title:  isLogged ? const Text("Sair") : const Text("Entrar"),
               onPressed: (context) {
-                _showSignOutDialog(context);
+                if (isLogged) {
+                  _showSignOutDialog(context);
+
+                } else {
+                  _checkUserLoggedIn();
+                }
               },
             ),
           ],

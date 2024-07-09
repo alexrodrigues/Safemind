@@ -20,7 +20,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final Therapist? therapist =
-    ModalRoute.of(context)?.settings.arguments as Therapist?;
+    ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as Therapist?;
     if (therapist == null) {
       return Scaffold(
         appBar: SfAppBar("Error"),
@@ -80,6 +83,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           () {
                         _openWebView(
                           context,
+                          therapist.name,
                           "https://instagram.com/${therapist.instagramUrl}",
                         );
                       },
@@ -88,7 +92,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     SfPrimaryButton(
                       "Website",
                           () {
-                        _openWebView(context, therapist.websiteUrl);
+                        _openWebView(
+                          context, therapist.name, therapist.websiteUrl,);
                       },
                     ),
                     const SizedBox(height: 16.0),
@@ -102,11 +107,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  void _openWebView(BuildContext context, String url) {
+  void _openWebView(BuildContext context, String title, String url,) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WebViewScreen(url: url),
+        builder: (context) => WebViewScreen(title, url),
       ),
     );
   }
@@ -126,15 +131,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
 }
 
 class WebViewScreen extends StatelessWidget {
+  final String title;
   final String url;
 
-  const WebViewScreen({Key? key, required this.url}) : super(key: key);
+  WebViewScreen(this.title, this.url)
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Webview"),
+        title: Text(title),
       ),
       body: WebView(
         initialUrl: url,

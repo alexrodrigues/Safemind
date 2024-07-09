@@ -34,23 +34,6 @@ class _TabScreenState extends State<TabScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkUserLoggedIn();
-    });
-  }
-
-  void _checkUserLoggedIn() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Welcome ${user.email ?? 'User'}')),
-      );
-    }
   }
 
   @override

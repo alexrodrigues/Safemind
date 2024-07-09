@@ -182,7 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 8),
                                   Text(
                                     filteredTherapists[index].description,
-                                    style: TextStyle(fontSize: 14),
+                                    style: const TextStyle(fontSize: 14),
+                                    maxLines: 8,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
