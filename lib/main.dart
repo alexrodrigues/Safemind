@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         initialRoute: "/",
+        debugShowCheckedModeBanner: false,
         routes: {
           "/": (ctx) => const TabScreen(),
           DetailsScreen.ROUTE_NAME: (context) => const DetailsScreen(),
