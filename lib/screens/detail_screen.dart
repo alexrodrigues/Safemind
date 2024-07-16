@@ -113,32 +113,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _launchInstagram(String instagramUrl) async {
-    final String appUrl = 'instagram://user?username=$instagramUrl';
-    final String webUrl = 'https://instagram.com/$instagramUrl';
+    final Uri appUrl = Uri.parse('instagram://user?username=$instagramUrl');
+    final Uri webUrl = Uri.parse('https://instagram.com/$instagramUrl');
 
-    if (await canLaunch(appUrl)) {
-      await launch(appUrl);
-    } else if (await canLaunch(webUrl)) {
-      await launch(webUrl);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Could not launch Instagram"),
-        ),
-      );
+    try {
+      await launchUrl(appUrl);
+    } catch (exception) {
+      await launchUrl(webUrl);
     }
   }
 
   void _launchWhatsApp(String phoneNumber) async {
-    final String whatsappUrl = "https://wa.me/$phoneNumber";
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Could not launch WhatsApp"),
-        ),
-      );
+    final Uri whatsappUrl = Uri.parse("https://wa.me/$phoneNumber");
+    try {
+      await launchUrl(whatsappUrl);
+    } catch (exception) {
+      await launchUrl(whatsappUrl);
     }
   }
 }
