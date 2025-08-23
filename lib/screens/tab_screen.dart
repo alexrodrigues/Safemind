@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safemind/screens/home_screen.dart';
-import 'package:safemind/screens/settings_screen.dart';
+import 'package:safemind/features/settings/presentation/settings_screen.dart';
 import 'package:safemind/widget/sf_appbar.dart';
 
 import 'login_screen.dart';

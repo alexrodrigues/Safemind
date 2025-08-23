@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'login_screen.dart';
+import '../../../screens/login_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -105,11 +105,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           tiles: <SettingsTile>[
             SettingsTile(
-              title:  isLogged ? const Text("Sair") : const Text("Entrar"),
+              title: isLogged ? const Text("Sair") : const Text("Entrar"),
               onPressed: (context) {
                 if (isLogged) {
                   _showSignOutDialog(context);
-
                 } else {
                   _checkUserLoggedIn();
                 }

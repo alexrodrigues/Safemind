@@ -6,10 +6,15 @@ import 'package:safemind/screens/detail_screen.dart';
 import 'package:safemind/screens/login_screen.dart';
 import 'package:safemind/screens/signup_screen.dart';
 import 'package:safemind/screens/tab_screen.dart';
+import 'package:safemind/di/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  
+  // Initialize dependency injection
+  configureDependencies();
+  
   runApp(const MyApp());
 }
 
