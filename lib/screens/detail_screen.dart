@@ -20,10 +20,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final Therapist? therapist =
-    ModalRoute
-        .of(context)
-        ?.settings
-        .arguments as Therapist?;
+        ModalRoute.of(context)?.settings.arguments as Therapist?;
     if (therapist == null) {
       return Scaffold(
         appBar: SfAppBar("Error"),
@@ -73,23 +70,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 32.0),
                     SfPrimaryButton(
                       "Chamar no Whats",
-                          () {
+                      () {
                         _launchWhatsApp(therapist.phoneNumber);
                       },
                     ),
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Instagram",
-                          () {
+                      () {
                         _launchInstagram(therapist.instagramUrl);
                       },
                     ),
                     const SizedBox(height: 16.0),
                     SfPrimaryButton(
                       "Website",
-                          () {
+                      () {
                         _openWebView(
-                          context, therapist.name, therapist.websiteUrl,);
+                          context,
+                          therapist.name,
+                          therapist.websiteUrl,
+                        );
                       },
                     ),
                     const SizedBox(height: 16.0),
@@ -103,7 +103,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  void _openWebView(BuildContext context, String title, String url,) {
+  void _openWebView(
+    BuildContext context,
+    String title,
+    String url,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -133,23 +137,34 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 }
 
-class WebViewScreen extends StatelessWidget {
+class WebViewScreen extends StatefulWidget {
   final String title;
   final String url;
 
-  WebViewScreen(this.title, this.url);
+  const WebViewScreen(this.title, this.url, {super.key});
 
+  @override
+  State<WebViewScreen> createState() => _WebViewScreenState();
+}
+
+class _WebViewScreenState extends State<WebViewScreen> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.url));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
-      body: WebView(
-        initialUrl: url,
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+      body: WebViewWidget(controller: controller),
     );
   }
 }

@@ -35,7 +35,7 @@ dependencies:
   cloud_firestore: ^5.0.2
   image_picker: ^1.1.2
   firebase_storage: ^12.1.0
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.13.0
   settings_ui: ^2.0.2
   url_launcher: ^6.1.7
   mask_text_input_formatter: ^2.1.0
